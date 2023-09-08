@@ -1,20 +1,33 @@
+
 pipeline {
     agent any
-    
+
     stages {
-           stage("Clone Git Repository") {
+        stage('Cloner le référentiel') {
             steps {
-                git(
-                    url: "https://github.com/Nouhailaquahar/TestNV.git",
-                    branch: "main",
-                    changelog: true,
-                    poll: true
-                )
+                // Clonez le référentiel Git dans le workspace de Jenkins
+                checkout scm
             }
         }
-        stage('Afficher Bonjour') {
+
+        stage('Installation des dépendances') {
             steps {
-                echo 'Bonjour'
+                // Installez les dépendances du projet Angular
+                sh 'npm install'
+            }
+        }
+
+        stage('Construction du projet') {
+            steps {
+                // Construisez le projet Angular
+                sh 'ng build --prod'
+            }
+        }
+
+        stage('Déploiement') {
+            steps {
+                // Copiez les fichiers de construction dans un répertoire de déploiement (par exemple, Apache, Nginx, etc.)
+                sh 'cp -r dist/* /var/www/html'
             }
         }
     }
