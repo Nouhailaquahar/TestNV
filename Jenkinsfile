@@ -3,6 +3,16 @@ pipeline {
     agent any
 
     stages {
+      stage("Clone Git Repository") {
+            steps {
+                git(
+                    url: "https://github.com/Nouhailaquahar/TestNV.git",
+                    branch: "main",
+                    changelog: true,
+                    poll: true
+                )
+            }
+        }
         stage('Cloner le référentiel') {
             steps {
                 // Clonez le référentiel Git dans le workspace de Jenkins
